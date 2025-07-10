@@ -43,7 +43,7 @@ jobs:
 
       - name: Run Cookiecutter Scaffold
         run: |
-          cookiecutter https://github.com/premalatha755/cookiecutter-java-lib.git --no-input \
+          cookiecutter https://premalatha755@github.com/premalatha755/cookiecutter-java-lib.git --no-input \
             groupId="${{ github.event.inputs.groupId }}" \
             artifactId="${{ github.event.inputs.artifactId }}" \
             javaVersion="${{ github.event.inputs.javaVersion }}" \
