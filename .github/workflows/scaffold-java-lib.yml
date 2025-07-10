@@ -1,0 +1,67 @@
+name: Scaffold Java Library
+
+on:
+  workflow_dispatch:
+    inputs:
+      groupId:
+        description: Java groupId (e.g., com.mycompany)
+        required: true
+      artifactId:
+        description: Artifact ID (e.g., utils-lib)
+        required: true
+      javaVersion:
+        description: Java Version (e.g., 17)
+        required: true
+        default: '17'
+      enableSonar:
+        description: Enable SonarQube?
+        required: true
+        default: "true"
+      enableCheckmarx:
+        description: Enable Checkmarx?
+        required: true
+        default: "false"
+      enableOWASP:
+        description: Enable OWASP scan?
+        required: true
+        default: "true"
+
+jobs:
+  scaffold:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Cookiecutter
+        run: pip install cookiecutter
+
+      - name: Run Cookiecutter Scaffold
+        run: |
+          cookiecutter https://github.com/premalatha755/cookiecutter-java-lib.git --no-input \
+            groupId="${{ github.event.inputs.groupId }}" \
+            artifactId="${{ github.event.inputs.artifactId }}" \
+            javaVersion="${{ github.event.inputs.javaVersion }}" \
+            enable_sonarqube="${{ github.event.inputs.enableSonar }}" \
+            enable_checkmarx="${{ github.event.inputs.enableCheckmarx }}" \
+            enable_owasp="${{ github.event.inputs.enableOWASP }}"
+
+      - name: Push generated project to new repo
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd "${{ github.event.inputs.artifactId }}"
+          gh repo create premalatha755/${{ github.event.inputs.artifactId }} --private --confirm
+          git init
+          git config user.name "scaffold-bot"
+          git config user.email "scaffold-bot@your-org.com"
+          git add .
+          git commit -m "Initial scaffold"
+          git branch -M main
+          git remote add origin https://x-access-token:${GH_TOKEN}@github.com/premalatha755/${{ github.event.inputs.artifactId }}.git
+          git push -u origin main
