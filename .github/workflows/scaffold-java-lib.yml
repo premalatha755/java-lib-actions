@@ -1,30 +1,37 @@
 name: Scaffold Java Library
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       groupId:
         description: Java groupId (e.g., com.mycompany)
         required: true
+        type: string
       artifactId:
         description: Artifact ID (e.g., utils-lib)
         required: true
+        type: string
+        
       javaVersion:
         description: Java Version (e.g., 17)
         required: true
         default: '17'
+        type: string
       enableSonar:
         description: Enable SonarQube?
         required: true
         default: "true"
+        type: string
       enableCheckmarx:
         description: Enable Checkmarx?
         required: true
         default: "false"
+        type: string
       enableOWASP:
         description: Enable OWASP scan?
         required: true
         default: "true"
+        type: string
 
 jobs:
   scaffold:
