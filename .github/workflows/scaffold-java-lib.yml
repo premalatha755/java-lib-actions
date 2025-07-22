@@ -55,10 +55,9 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
-          cd "${{ github.event.inputs.artifactId }}"
+          cp -R ${{ github.event.inputs.artifactId }}/. .
           gh auth status
-          gh repo create premalatha755/${{ github.event.inputs.artifactId }} --private --confirm
-          git init
+          rm temp.txt
           git config user.name "scaffold-bot"
           git config user.email "scaffold-bot@your-org.com"
           git add .
