@@ -57,12 +57,12 @@ jobs:
             enable_sonarqube="${{ github.event.inputs.enableSonar }}" \
             enable_checkmarx="${{ github.event.inputs.enableCheckmarx }}" \
             enable_owasp="${{ github.event.inputs.enableOWASP }}"
-
+            -output-dir ./generated-lib
       - name: Push generated project to new repo
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
-          cp -R ${{ github.event.inputs.artifactId }}/. .
+          cp -R generated-lib/${{ github.event.inputs.artifactId }}/. .
           gh auth status
           rm temp.txt
           git config user.name "scaffold-bot"
