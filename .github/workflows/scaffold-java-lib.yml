@@ -57,7 +57,7 @@ jobs:
             enable_sonarqube="${{ github.event.inputs.enableSonar }}" \
             enable_checkmarx="${{ github.event.inputs.enableCheckmarx }}" \
             enable_owasp="${{ github.event.inputs.enableOWASP }}"
-            -output-dir ./generated-lib
+            --output-dir ./generated-lib
       - name: Push generated project to new repo
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
