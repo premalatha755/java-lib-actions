@@ -63,6 +63,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
           cp -R generated-lib/${{ github.event.inputs.artifactId }}/. .
+          echo "${GH_TOKEN}" | gh auth login --with-token
           gh auth status
           rm temp.txt
           git config user.name "scaffold-bot"
