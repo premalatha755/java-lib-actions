@@ -71,5 +71,4 @@ jobs:
           git add .
           git commit -m "Initial scaffold"
           git branch -M main
-          git remote add origin https://x-access-token:${GH_TOKEN}@github.com/premalatha755/${{ github.event.inputs.artifactId }}.git
           git push -u origin main
